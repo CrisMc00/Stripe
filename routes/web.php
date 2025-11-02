@@ -16,4 +16,11 @@ Route::get('/success', function () {
 })->name('success');
 Route::get('/cancel', function () {
     return view('index');
+});
+
+Route::get('/index2', function () {
+    return view('indexx');
 })->name('cancel');
+
+Route::get('/crearProductos', [StripeController::class, 'crearProductos']);
+Route::post('/pagar', [StripeController::class, 'pago']);

@@ -24,3 +24,28 @@ Route::get('/index2', function () {
 
 Route::get('/crearProductos', [StripeController::class, 'crearProductos']);
 Route::post('/pagar', [StripeController::class, 'pago']);
+
+// ============================================
+// 🆕 NUEVAS FUNCIONALIDADES
+// ============================================
+
+// Reembolsos
+Route::get('/refund', [StripeController::class, 'refund']);
+Route::get('/refunds', function () {
+    return view('refunds');
+})->name('refunds');
+
+// Historial de Compras y Reembolsos
+Route::get('/historial-compras', [StripeController::class, 'historialCompras'])->name('historial.compras');
+Route::post('/refund-purchase', [StripeController::class, 'refundPurchase']);
+
+// Suscripciones
+Route::post('/suscripcion', [StripeController::class, 'crearSuscripcion']);
+Route::post('/suscripcion-premium', [StripeController::class, 'suscripcionPremium']);
+Route::get('/crearPreciosRecurrentes', [StripeController::class, 'crearPreciosRecurrentes']);
+
+// Consultas
+Route::get('/session', [StripeController::class, 'obtenerSesion']);
+
+// Webhook (sin CSRF)
+Route::post('/stripe/webhook', [StripeController::class, 'webhook']);

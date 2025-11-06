@@ -99,6 +99,42 @@
         font-weight: 700;
     }
 
+    /* Premium Button */
+    .premium-button {
+        background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+        color: #000;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: var(--radius);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 1rem;
+        font-weight: 700;
+        transition: all 0.2s;
+        box-shadow: 0 4px 6px rgba(255, 215, 0, 0.3);
+        margin-right: 1rem;
+    }
+
+    .premium-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(255, 215, 0, 0.5);
+    }
+
+    .premium-badge {
+        background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+        color: #000;
+        padding: 0.75rem 1.5rem;
+        border-radius: var(--radius);
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-right: 1rem;
+        box-shadow: 0 4px 6px rgba(255, 215, 0, 0.3);
+    }
+
     /* Hero */
     .hero {
         background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
@@ -555,7 +591,7 @@
     const products = [
         {
             id: 1,
-            idprecio: "price_1SMuWlJey9GIrrAAP6pdbOBE",
+            idprecio: "price_1SQYIMB5Sv3Cw5ToWSV1Ypia",
             name: "Concha de Vainilla",
             description: "Pan dulce tradicional con cobertura de vainilla",
             price: 15,
@@ -563,7 +599,7 @@
         },
         {
             id: 2,
-            idprecio: "price_1SMuWmJey9GIrrAATr5NLHO6",
+            idprecio: "price_1SQYIMB5Sv3Cw5ToLjIWpvh4",
             name: "Concha de Chocolate",
             description: "Pan dulce con deliciosa cobertura de chocolate",
             price: 15,
@@ -571,7 +607,7 @@
         },
         {
             id: 3,
-            idprecio: "price_1SMuWmJey9GIrrAAvwnQFQtp",
+            idprecio: "price_1SQYINB5Sv3Cw5Top5QdBhy9",
             name: "Ojo de Buey",
             description: "Pan dulce relleno de mermelada de fresa",
             price: 18,
@@ -579,7 +615,7 @@
         },
         {
             id: 4,
-            idprecio: "price_1SMuWnJey9GIrrAA5PKp7QWg",
+            idprecio: "price_1SQYINB5Sv3Cw5ToINu0gWJQ",
             name: "Cuerno de Mantequilla",
             description: "Croissant estilo mexicano con azúcar",
             price: 20,
@@ -587,7 +623,7 @@
         },
         {
             id: 5,
-            idprecio: "price_1SMuWnJey9GIrrAAAIugN5ye",
+            idprecio: "price_1SQYIOB5Sv3Cw5ToFhGBw85N",
             name: "Polvorón",
             description: "Pan suave cubierto de azúcar glass",
             price: 12,
@@ -595,7 +631,7 @@
         },
         {
             id: 6,
-            idprecio: "price_1SMuWoJey9GIrrAARJyqpqYE",
+            idprecio: "price_1SQYIOB5Sv3Cw5ToP5jnt4ao",
             name: "Dona Glaseada",
             description: "Dona esponjosa con glaseado de azúcar",
             price: 16,
@@ -603,7 +639,7 @@
         },
     {
         id: 7,
-        idprecio: "price_1SMuWpJey9GIrrAAztn4YOaV",
+        idprecio: "price_1SQYIOB5Sv3Cw5ToFlo3jstQ",
         name: "Bigote",
         description: "Pan en forma de bigote con azúcar",
         price: 14,
@@ -611,7 +647,7 @@
     },
     {
         id: 8,
-        idprecio: "price_1SMuWpJey9GIrrAAMuYtmT0B",
+        idprecio: "price_1SQYIPB5Sv3Cw5ToF8X6SYKn",
         name: "Cocol",
         description: "Pan tradicional con ajonjolí",
         price: 13,
@@ -627,6 +663,7 @@
         renderProducts();
         setupEventListeners();
         loadCartFromStorage();
+        checkPremiumStatus(); // Verificar si el usuario es premium
     });
 
     // Render Products
@@ -767,6 +804,11 @@
         
         // Success Modal
         document.getElementById('closeSuccess').addEventListener('click', closeSuccessModal);
+        
+        // Premium Modal
+        document.getElementById('premiumButton').addEventListener('click', openPremiumModal);
+        document.getElementById('closePremium').addEventListener('click', closePremiumModal);
+        document.getElementById('cancelPremium').addEventListener('click', closePremiumModal);
         
         // Close modals on outside click
         document.querySelectorAll('.modal').forEach(modal => {
@@ -977,20 +1019,79 @@
         // Simple console notification (you can enhance this with a toast notification)
         console.log('[v0] Notificación:', message);
     }
+
+    // ============================================
+    // 🆕 PREMIUM FUNCTIONS
+    // ============================================
+
+    // Verificar si el usuario es Premium
+    function checkPremiumStatus() {
+        const isPremium = localStorage.getItem('isPremium') === 'true';
+        const premiumButton = document.getElementById('premiumButton');
+        const premiumBadge = document.getElementById('premiumBadge');
+
+        if (isPremium) {
+            premiumButton.style.display = 'none';
+            premiumBadge.style.display = 'flex';
+        } else {
+            premiumButton.style.display = 'flex';
+            premiumBadge.style.display = 'none';
+        }
+    }
+
+    // Abrir modal Premium
+    function openPremiumModal() {
+        document.getElementById('premiumModal').classList.add('active');
+    }
+
+    // Cerrar modal Premium
+    function closePremiumModal() {
+        document.getElementById('premiumModal').classList.remove('active');
+    }
+
+    // Activar Premium (se llama desde la página de éxito)
+    function activatePremium() {
+        localStorage.setItem('isPremium', 'true');
+        checkPremiumStatus();
+        console.log('✨ Premium activado!');
+    }
+
+    // Desactivar Premium (para testing)
+    function deactivatePremium() {
+        localStorage.removeItem('isPremium');
+        checkPremiumStatus();
+        console.log('❌ Premium desactivado');
+    }
 </script>
 <!-- Header -->
 <header class="header">
     <div class="container">
         <div class="header-content">
             <h1 class="logo">🥐 Panadería Dulce</h1>
-            <button class="cart-button" id="cartButton">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="9" cy="21" r="1"></circle>
-                    <circle cx="20" cy="21" r="1"></circle>
-                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                </svg>
-                <span class="cart-count" id="cartCount">0</span>
-            </button>
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <!-- Botón Premium o Badge (se maneja con JavaScript) -->
+                <button class="premium-button" id="premiumButton">
+                    ⭐ Obtener Premium
+                </button>
+                <div class="premium-badge" id="premiumBadge" style="display: none;">
+                    ⭐ Eres Premium
+                </div>
+                <!-- Botón Historial -->
+                <a href="/historial-compras" class="cart-button" style="text-decoration: none; margin: 0;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                    </svg>
+                </a>
+                <!-- Carrito -->
+                <button class="cart-button" id="cartButton">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                    </svg>
+                    <span class="cart-count" id="cartCount">0</span>
+                </button>
+            </div>
         </div>
     </div>
 </header>
@@ -1079,6 +1180,49 @@
         </div>
     </div>
     
+    <!-- Premium Modal -->
+    <div class="modal" id="premiumModal">
+        <div class="modal-content modal-small">
+            <div class="modal-header">
+                <h2>⭐ Suscripción Premium</h2>
+                <button class="close-button" id="closePremium">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div style="background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); padding: 20px; border-radius: 12px; margin-bottom: 20px; text-align: center;">
+                    <h3 style="font-size: 24px; margin: 0; color: #000;">Plan Premium</h3>
+                    <p style="font-size: 32px; font-weight: 700; margin: 10px 0; color: #000;">$500 MXN/mes</p>
+                </div>
+                
+                <h3 style="margin-bottom: 15px;">Beneficios Exclusivos:</h3>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="padding: 10px 0; border-bottom: 1px solid #e2e8f0;">
+                        ✅ <strong>Envío GRATIS</strong> en todas tus compras
+                    </li>
+                    <li style="padding: 10px 0; border-bottom: 1px solid #e2e8f0;">
+                        ✅ <strong>20% de descuento</strong> en compras mayores a $100
+                    </li>
+                    <li style="padding: 10px 0; border-bottom: 1px solid #e2e8f0;">
+                        ✅ <strong>Acceso anticipado</strong> a productos nuevos
+                    </li>
+                    <li style="padding: 10px 0;">
+                        ✅ <strong>Notificaciones por email</strong> antes de cada cobro
+                    </li>
+                </ul>
+
+                <p style="color: #718096; font-size: 14px; margin-top: 20px;">
+                    💡 <strong>Nota:</strong> Stripe te enviará un correo electrónico automático cada mes antes de realizar el cobro. Puedes cancelar en cualquier momento desde tu Dashboard de Stripe.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button class="button button-secondary" id="cancelPremium">Cancelar</button>
+                <form action="/suscripcion-premium" method="POST" id="premiumForm">
+                    @csrf
+                    <button type="submit" class="button button-primary">Suscribirme Ahora</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- Success Modal -->
     <div class="modal" id="successModal">
         <div class="modal-content modal-small">

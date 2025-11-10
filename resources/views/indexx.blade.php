@@ -1184,7 +1184,7 @@
     <div class="modal" id="premiumModal">
         <div class="modal-content modal-small">
             <div class="modal-header">
-                <h2>⭐ Suscripción Premium</h2>
+                <h2>Suscripción Premium</h2>
                 <button class="close-button" id="closePremium">&times;</button>
             </div>
             <div class="modal-body">
@@ -1192,25 +1192,9 @@
                     <h3 style="font-size: 24px; margin: 0; color: #000;">Plan Premium</h3>
                     <p style="font-size: 32px; font-weight: 700; margin: 10px 0; color: #000;">$500 MXN/mes</p>
                 </div>
-                
-                <h3 style="margin-bottom: 15px;">Beneficios Exclusivos:</h3>
-                <ul style="list-style: none; padding: 0;">
-                    <li style="padding: 10px 0; border-bottom: 1px solid #e2e8f0;">
-                        ✅ <strong>Envío GRATIS</strong> en todas tus compras
-                    </li>
-                    <li style="padding: 10px 0; border-bottom: 1px solid #e2e8f0;">
-                        ✅ <strong>20% de descuento</strong> en compras mayores a $100
-                    </li>
-                    <li style="padding: 10px 0; border-bottom: 1px solid #e2e8f0;">
-                        ✅ <strong>Acceso anticipado</strong> a productos nuevos
-                    </li>
-                    <li style="padding: 10px 0;">
-                        ✅ <strong>Notificaciones por email</strong> antes de cada cobro
-                    </li>
-                </ul>
 
                 <p style="color: #718096; font-size: 14px; margin-top: 20px;">
-                    💡 <strong>Nota:</strong> Stripe te enviará un correo electrónico automático cada mes antes de realizar el cobro. Puedes cancelar en cualquier momento desde tu Dashboard de Stripe.
+                    <strong>Nota:</strong> Stripe te enviará un correo electrónico automático cada mes antes de realizar el cobro. Puedes cancelar en cualquier momento desde tu Dashboard de Stripe.
                 </p>
             </div>
             <div class="modal-footer">

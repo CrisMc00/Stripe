@@ -70,7 +70,10 @@ class StripeController extends Controller
                 'quantity' => $item['quantity'],
             ];
         }
-
+        $productos[] = [
+            'price' => "price_1SQdtqB5Sv3Cw5TokpPv6xLV",
+            'quantity' => 1
+        ];
         Stripe::setApiKey(config('stripe.sk'));
 
         $session = Session::create([
@@ -287,7 +290,7 @@ class StripeController extends Controller
     }
 
     /**
-     * 🔔 WEBHOOK - Recibir eventos de Stripe
+     * WEBHOOK - Recibir eventos de Stripe
      */
     public function webhook(Request $request){
         Stripe::setApiKey(config('stripe.sk'));
@@ -306,7 +309,6 @@ class StripeController extends Controller
             return response()->json(['error' => 'Invalid payload'], 400);
         }
 
-        // Manejar eventos
         switch ($event->type) {
             case 'checkout.session.completed':
                 $session = $event->data->object;
@@ -367,7 +369,7 @@ class StripeController extends Controller
 
             case 'payment_intent.succeeded':
                 $paymentIntent = $event->data->object;
-                Log::info('💰 Payment Intent exitoso!', [
+                Log::info('Payment Intent exitoso!', [
                     'payment_intent_id' => $paymentIntent->id,
                     'amount' => $paymentIntent->amount / 100,
                 ]);
@@ -375,21 +377,21 @@ class StripeController extends Controller
 
             case 'payment_intent.payment_failed':
                 $paymentIntent = $event->data->object;
-                Log::error('❌ Pago fallido!', [
+                Log::error('Pago fallido!', [
                     'payment_intent_id' => $paymentIntent->id,
                     'error' => $paymentIntent->last_payment_error->message ?? 'Unknown',
                 ]);
                 break;
 
             default:
-                Log::info('🔔 Evento de Stripe: ' . $event->type);
+                Log::info('Evento de Stripe: ' . $event->type);
         }
 
         return response()->json(['status' => 'success'], 200);
     }
 
     /**
-     * 📊 OBTENER SESIÓN - Consultar detalles de una sesión de checkout
+     * OBTENER SESIÓN - Consultar detalles de una sesión de checkout
      */
     public function obtenerSesion(Request $request){
         Stripe::setApiKey(config('stripe.sk'));

@@ -297,7 +297,7 @@ class StripeController extends Controller
 
         $payload = $request->getContent();
         $sig_header = $request->header('Stripe-Signature');
-        $endpoint_secret = config('stripe.webhook_secret');
+        $endpoint_secret = env('STRIPE_WEBHOOK_SECRET');
 
         try {
             if ($endpoint_secret) {

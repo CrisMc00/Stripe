@@ -17,41 +17,44 @@ use Stripe\Exception\SignatureVerificationException;
 
 class StripeController extends Controller
 {
-    public function checkout(){
-        Stripe::setApiKey(config('stripe.sk'));
+    public function pagar1(){
+        Stripe::setApiKey(env('STRIPE_SK')); // indica que clave va a usar la libreria de stripe 
+
+        // crear una nueva sesion de pago 
+        $session = Session::create([
+            'mode' => 'payment', // indica que tipo de flujo de pago 
+            'line_items' => [ // son los productos que se van a comprar 
+                [
+                    'price' => 'price_1SIGuTJey9GIrrAAfiQsIzZQ', // id del precio del producto 
+                    'quantity' => 1, // cantidad del producto
+                ]
+            ],
+            'success_url' => route('success'), // indica que ruta va a ir cuando el pago es un exito
+            'cancel_url' => route('cancel'), // idnica la ruta de pago cancelado 
+        ]);
+
+        return redirect()->away($session->url); // se redirecciona a la ruta asignada con la variable $session->url
+    }
+
+    public function pagar2(){
+        Stripe::setApiKey(env('STRIPE_SK')); 
 
         $session = Session::create([
-            'mode' => 'payment',
+            'mode' => 'payment', 
             'line_items' => [
                 [
+                    // el price_data es para usar un producto que no existe en stripe 
                     'price_data' => [
                         'currency' => 'mxn',
                         'product_data' => [
                             'name' => 'Producto 1',
                         ],
-                        'unit_amount' => 15,
+                        'unit_amount' => 1500,
                     ],
                     'quantity' => 1,
                 ],
             ],
-            'success_url' => route('success'), // . '?session_id={CHECKOUT_SESSION_ID}',
-            'cancel_url' => route('cancel'),
-        ]);
-
-        return redirect()->away($session->url);
-    }
-    public function checkout2(){
-        Stripe::setApiKey(config('stripe.sk'));
-
-        $session = Session::create([
-            'mode' => 'payment',
-            'line_items' => [
-                [
-                'price' => 'price_1SIGuTJey9GIrrAAfiQsIzZQ',
-                'quantity' => 1,
-                ]
-            ],
-            'success_url' => route('success'), // . '?session_id={CHECKOUT_SESSION_ID}',
+            'success_url' => route('success'),
             'cancel_url' => route('cancel'),
         ]);
 
@@ -70,11 +73,8 @@ class StripeController extends Controller
                 'quantity' => $item['quantity'],
             ];
         }
-        $productos[] = [
-            'price' => "price_1SQdtqB5Sv3Cw5TokpPv6xLV",
-            'quantity' => 1
-        ];
-        Stripe::setApiKey(config('stripe.sk'));
+
+        Stripe::setApiKey(env('STRIPE_SK'));
 
         $session = Session::create([
             'mode' => 'payment',
@@ -87,7 +87,7 @@ class StripeController extends Controller
     }
 
     public function crearProductos(){
-        Stripe::setApiKey(config('stripe.sk'));
+        Stripe::setApiKey(env('STRIPE_SK'));
 
         $productos_creados = [];
         $productos = [
@@ -168,7 +168,7 @@ class StripeController extends Controller
      * 🔄 REEMBOLSOS - Procesar un reembolso completo o parcial
      */
     public function refund(Request $request){
-        Stripe::setApiKey(config('stripe.sk'));
+        Stripe::setApiKey(env('STRIPE_SK'));
 
         $payment_intent_id = $request->input('payment_intent');
         $amount = $request->input('amount');
@@ -203,7 +203,7 @@ class StripeController extends Controller
      * Beneficios: Sin costo de envío + 20% descuento en compras mayores a $100
      */
     public function suscripcionPremium(Request $request){
-        Stripe::setApiKey(config('stripe.sk'));
+        Stripe::setApiKey(env('STRIPE_SK'));
 
         // Obtener email del cliente (opcional)
         $email = $request->input('email', '');
@@ -233,7 +233,7 @@ class StripeController extends Controller
      * 💳 SUSCRIPCIÓN MENSUAL GENÉRICA - Crear suscripción recurrente
      */
     public function crearSuscripcion(){
-        Stripe::setApiKey(config('stripe.sk'));
+        Stripe::setApiKey(env('STRIPE_SK'));
 
         $session = Session::create([
             'mode' => 'subscription',
@@ -260,7 +260,7 @@ class StripeController extends Controller
      * 📦 CREAR PRECIOS RECURRENTES - Planes de suscripción
      */
     public function crearPreciosRecurrentes(){
-        Stripe::setApiKey(config('stripe.sk'));
+        Stripe::setApiKey(env('STRIPE_SK'));
 
         $planes = [
             ['name' => 'Plan Básico', 'description' => '5 panes al mes + 10% descuento', 'price' => 99, 'interval' => 'month'],
@@ -293,7 +293,7 @@ class StripeController extends Controller
      * WEBHOOK - Recibir eventos de Stripe
      */
     public function webhook(Request $request){
-        Stripe::setApiKey(config('stripe.sk'));
+        Stripe::setApiKey(env('STRIPE_SK'));
 
         $payload = $request->getContent();
         $sig_header = $request->header('Stripe-Signature');
@@ -394,7 +394,7 @@ class StripeController extends Controller
      * OBTENER SESIÓN - Consultar detalles de una sesión de checkout
      */
     public function obtenerSesion(Request $request){
-        Stripe::setApiKey(config('stripe.sk'));
+        Stripe::setApiKey(env('STRIPE_SK'));
 
         $session_id = $request->input('session_id');
         if (!$session_id) {
@@ -479,7 +479,7 @@ class StripeController extends Controller
      * 🔄 PROCESAR REEMBOLSO - Reembolsar una compra
      */
     public function refundPurchase(Request $request){
-        Stripe::setApiKey(config('stripe.sk'));
+        Stripe::setApiKey(env('STRIPE_SK'));
 
         $request->validate([
             'purchase_id' => 'required|exists:purchases,id',

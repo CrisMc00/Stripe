@@ -7,14 +7,14 @@
         <title>Document</title>
     </head>
     <body>
-        <form action="/checkout" method="POST">
-            <input type="hidden" name="_token" value="{{csrf_token()}}">
-            <button type="submit">Pagar</button>
+        <form action="/pagar1" method="POST">
+            @csrf
+            <button type="submit">Pagar producto de stripe</button>
         </form>
-        
-        <form action="/checkout2" method="POST">
-            <input type="hidden" name="_token" value="{{csrf_token()}}">
-            <button type="submit">Pagar producto fijo</button>
+        <br>
+        <form action="/pagar2" method="POST">
+            @csrf
+            <button type="submit">Pagar producto que no esta stripe</button>
         </form>
     </body>
 </html>

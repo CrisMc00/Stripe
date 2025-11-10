@@ -7,9 +7,9 @@ Route::get('/', function () {
     return view('index');
 });
 
-Route::post('/checkout', [StripeController::class, 'checkout']);
+Route::post('/pagar2', [StripeController::class, 'pagar2']);
 
-Route::post('/checkout2', [StripeController::class, 'checkout2']);
+Route::post('/pagar1', [StripeController::class, 'pagar1']);
 
 Route::get('/success', function () {
     return view('success');

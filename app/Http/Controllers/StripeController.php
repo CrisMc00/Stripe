@@ -54,6 +54,7 @@ class StripeController extends Controller
                     'quantity' => 1,
                 ],
             ],
+            'allow_promotion_codes' => true, // es para habilitar los cupones
             'success_url' => route('success'),
             'cancel_url' => route('cancel'),
         ]);

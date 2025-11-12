@@ -147,12 +147,12 @@ class StripeController extends Controller
                 'active' => true,
             ]);
             
-            // 2. Crear el Precio asociado al Producto (unit_amount en centavos)
+            // 2. Crear el Precio asociado al Producto 
             $price = Price::create([
                 'unit_amount' => $item['price'] * 100,
-                'currency' => 'mxn', // Usando Peso Mexicano (MXN)
+                'currency' => 'mxn', // Usando Peso Mexicano 
                 'product' => $product->id,
-                'recurring' => null, // Esto asegura que sea un pago único (One-Time)
+                'recurring' => null, // Esto asegura que sea un pago único 
             ]);
             
             $productos_creados[] = [

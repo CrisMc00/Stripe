@@ -62,7 +62,7 @@ const products = [
         name: "Crossaint",
         description: "Croissant francés clásico y relleno",
         price: 13,
-        image: "/img/crossaint.png"
+        image: "/img/Crossaint.png"
     }
 ];
 

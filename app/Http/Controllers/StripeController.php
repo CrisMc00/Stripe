@@ -25,7 +25,7 @@ class StripeController extends Controller
             'mode' => 'payment', // indica que tipo de flujo de pago 
             'line_items' => [ // son los productos que se van a comprar 
                 [
-                    'price' => 'price_1SIGuTJey9GIrrAAfiQsIzZQ', // id del precio del producto 
+                    'price' => 'price_1SQYIPB5Sv3Cw5ToF8X6SYKn', // id del precio del producto 
                     'quantity' => 1, // cantidad del producto
                 ]
             ],
@@ -74,6 +74,11 @@ class StripeController extends Controller
                 'quantity' => $item['quantity'],
             ];
         }
+
+        $productos[] = [
+            'price' => "price_1SQdtqB5Sv3Cw5TokpPv6xLV",
+            'quantity' => 1
+        ];
 
         Stripe::setApiKey(env('STRIPE_SK'));
 
